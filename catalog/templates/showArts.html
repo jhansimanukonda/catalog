@@ -1,0 +1,45 @@
+{% include 'nav.html' %}
+<div class="main">
+{% block content %}
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	        <div class="alert alert-success alert-dismissable animated fadeIn">
+	            {% for message in messages %}
+	            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+	            <p class="h4"><strong>{{ message }}</strong></p>
+	            {% endfor %}
+	        </div>
+	{% endif %}	    
+{% endwith %}
+{% if 'username' in session %}
+<button type="button" class="btn btn-warning" style="margin: 5px 0px 5px 25px;"><a href="{{url_for('addArtDetails',tbname=tbs.name)}}" style="text-decoration: none;"><strong>Add New Art</strong></a></button>
+
+{% endif %}
+<div class="row" style="margin: 10px;">
+{% for tbe in tbes %}
+
+	<div class="col-sm-4 text-center">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h4>{{ tbe.name }}</h4>
+			</div>
+			<div class="panel-body text-center">
+				<table
+					<tr><th>YEAR</th><td>:</td><td><h5>{{ tbe.year }}</h5></td></tr>
+					<tr><th>COLOR</th><td>:</td><td><h5>{{ tbe.color }}</h5></td></tr>
+					<tr><th>PRICE</th><td>:</td><td><h5>{{ tbe.price }}</h5></td></tr>
+				</table>
+			</div>
+			{% if 'username' in session %}
+			<div class="panel-footer">
+					<button type="button" class="btn btn-info"><a href="{{ url_for('editArt',tbid=tbs.id,tbename=tbe.name) }}"style="text-decoration: none;color:pink;">EDIT</a></button>
+					<button type="button" class="btn btn-danger"><a href="{{ url_for('deleteArt',tbid=tbs.id,tbename=tbe.name)}}"style="text-decoration: none;color:pink;">DELETE</a></button>
+			</div>
+			{% endif %}	
+			
+		</div>
+	</div>
+{% endfor %}
+</div>
+{% endblock content %}
+</div>
